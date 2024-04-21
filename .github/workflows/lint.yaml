@@ -1,0 +1,48 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - "main"
+
+  pull_request:
+    paths:
+      - .github/**
+      - applications/**
+      - infra/**
+
+concurrency:
+  group: lint-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+      - name: Install Prettier
+        run: npm install --global prettier
+
+      - name: Prettier
+        run: prettier --check .
+
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: yamllint
+        run: yamllint -c yamllint.yaml .
+
+  kustomize-applications:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: kustomize
+        run: kubectl kustomize applications/
