@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: podinfo-dev
+spec:
+  project: podinfo-dev
+  source:
+    repoURL: https://stefanprodan.github.io/podinfo
+    targetRevision: 6.6.2
+    chart: podinfo
+    helm: {}
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: podinfo-dev
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - ServerSideApply=true
+      - CreateNamespace=true

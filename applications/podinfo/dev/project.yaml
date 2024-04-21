@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: podinfo-dev
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://stefanprodan.github.io/podinfo
+  destinations:
+    - namespace: podinfo-dev
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
