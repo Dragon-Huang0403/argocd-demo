@@ -4,3 +4,5 @@ kind: Kustomization
 resources:
   - podinfo/dev/app/podinfo.yaml
   - podinfo/dev/project.yaml
+  - podinfo/prod/app/podinfo.yaml
+  - podinfo/prod/project.yaml
